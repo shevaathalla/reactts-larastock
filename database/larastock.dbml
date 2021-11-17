@@ -1,0 +1,34 @@
+Project larastock {
+  database_type: 'MySQL'
+  Note: 'Application to do stock tracking'
+}
+
+Table users {
+    id int [pk, increment]
+    name string
+    email string
+    password string
+}
+
+Table products {
+    id int [pk, increment]
+    name string
+    stock int
+    price long
+}
+
+Table transactions {
+    id int [pk, increment]
+    type transaction_type
+    quantity int
+    user_id int
+    product_id int
+}
+
+Ref: users.id < transactions.user_id [delete: cascade, update: no action]
+Ref: products.id < transactions.product_id [delete: cascade, update: no action]
+
+Enum transaction_type {
+    IN
+    OUT
+}
