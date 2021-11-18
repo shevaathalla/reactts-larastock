@@ -1,8 +1,8 @@
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Button from "@mui/material/Button";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import DataTable, { TableColumn } from "react-data-table-component";
-import { Card, Container } from "@mui/material";
+import DataTable, { Alignment, TableColumn } from "react-data-table-component";
+import { Card, Container, Stack } from "@mui/material";
 import { InertiaLink } from "@inertiajs/inertia-react";
 import route from "ziggy-js";
 import Product from "../../Model/Product";
@@ -51,23 +51,35 @@ const IndexProductPage = ({ products }: { products: Array<Product> }) => {
             },
             {
                 name: "Price",
-                selector: (row) => row.price,
+                selector: (row) => "RP. " + row.price,
                 sortable: true,
             },
             {
                 name: "Action",
                 cell: (row) => (
-                    <Button
-                        component={InertiaLink}
-                        href={route("product.show", { product: row })}
-                        color="primary"
-                        variant="contained"
-                    >
-                        Details
-                    </Button>
+                    <div>
+                        <Stack spacing={2} direction="row">
+                            <Button
+                                component={InertiaLink}
+                                size="small"
+                                href={route("product.show", { product: row })}
+                                color="primary"
+                                variant="contained"
+                            >
+                                Details
+                            </Button>
+                            <Button
+                                color="error"
+                                variant="contained"
+                                size="small"
+                            >
+                                Delete
+                            </Button>
+                        </Stack>
+                    </div>
                 ),
+                minWidth: "250",
                 ignoreRowClick: true,
-                allowOverflow: true,
                 button: true,
             },
         ],
@@ -75,17 +87,24 @@ const IndexProductPage = ({ products }: { products: Array<Product> }) => {
     );
     return (
         <ThemeProvider theme={theme}>
-            <Container sx={{ marginTop:'50px' }}>
+            <Container sx={{ marginTop: "50px" }}>
                 <Card variant="outlined">
                     <DataTable
                         theme="default"
                         title="Products List"
+                        subHeaderAlign={Alignment.LEFT}
+                        subHeader subHeaderComponent={
+                            <Button variant="contained" color="success">
+                                Create
+                            </Button>
+                        }                        
                         columns={columns}
                         data={products}
                         customStyles={dataTableTheme}
                         selectableRows
                         onSelectedRowsChange={handleChange}
                         pagination
+                        responsive
                     ></DataTable>
                 </Card>
             </Container>
