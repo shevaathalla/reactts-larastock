@@ -5,22 +5,22 @@ import DataTable, { Alignment, TableColumn } from "react-data-table-component";
 import { Card, Container, Stack } from "@mui/material";
 import { InertiaLink } from "@inertiajs/inertia-react";
 import route from "ziggy-js";
-import {Product} from "../../Model/Product";
+import { Product } from "../../Model/Product";
+import { Inertia } from "@inertiajs/inertia";
 
 const IndexProductPage = ({ products }: { products: Array<Product> }) => {
-    const [selectedRows, setSelectedRows] = useState([]);
+    const [selectedRows, setSelectedRows] = useState<Product[]>([]);
+    const [toggledClearRows, setToggleClearRows] = React.useState(false);
     const [btnMultipleDelete, setBtnMultipleDelete] = useState(true);
 
     const handleChange = useCallback((state) => {
         setSelectedRows(state.selectedRows);
         if (state.selectedRows.length > 0) {
-            setBtnMultipleDelete(false);   
-        }else{
+            setBtnMultipleDelete(false);
+        } else {
             setBtnMultipleDelete(true);
-        }
-        console.log(state.selectedRows);
+        }        
     }, []);
-
 
     const dataTableTheme = {
         header: {
@@ -36,6 +36,14 @@ const IndexProductPage = ({ products }: { products: Array<Product> }) => {
     };
 
     const theme = createTheme();
+
+    const handleDelete = (ids: Array<Number>, e: React.FormEvent<HTMLButtonElement>) => {
+        e.preventDefault();               
+        if (confirm("are you sure?")) {            
+            setToggleClearRows(!toggledClearRows);
+            Inertia.delete(route('product.destroy', {products: ids.toString()}));   
+        }                
+    };
 
     const columns: TableColumn<Product>[] = useMemo(
         () => [
@@ -67,14 +75,15 @@ const IndexProductPage = ({ products }: { products: Array<Product> }) => {
                                 variant="contained"
                             >
                                 Details
-                            </Button>
-                            <Button
-                                color="error"
-                                variant="contained"
-                                size="small"
-                            >
-                                Delete
-                            </Button>
+                            </Button>                       
+                                <Button
+                                    color="error"
+                                    variant="contained"
+                                    size="small"
+                                    onClick = {(e) => handleDelete([row.id],e)}
+                                >
+                                    Delete
+                                </Button>                            
                         </Stack>
                     </div>
                 ),
@@ -104,10 +113,14 @@ const IndexProductPage = ({ products }: { products: Array<Product> }) => {
                                 >
                                     Create
                                 </Button>
-                                <Button                                
+                                <Button
                                     variant="contained"
                                     color="error"
                                     disabled={btnMultipleDelete}
+                                    onClick = {(e) => {
+                                        let ids = selectedRows.map(products => products.id);
+                                        handleDelete(ids,e);                                                                                
+                                    }}
                                 >
                                     Multiple Delete
                                 </Button>
@@ -118,6 +131,7 @@ const IndexProductPage = ({ products }: { products: Array<Product> }) => {
                         customStyles={dataTableTheme}
                         selectableRows
                         onSelectedRowsChange={handleChange}
+                        clearSelectedRows={toggledClearRows}
                         pagination
                         responsive
                     ></DataTable>

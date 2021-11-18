@@ -21,4 +21,5 @@ Route::get('/', function () {
 
 Route::get('/home',[HomeController::class, 'index']);
 
-Route::resource('/product', ProductController::class);
+Route::resource('/product', ProductController::class)->except('destroy');
+Route::delete('/product/{products}', [ProductController::class,'destroy'])->name('product.destroy');

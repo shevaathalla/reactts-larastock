@@ -69,10 +69,7 @@ const ShowProductPage = ({ product }: { product: Product }) => {
                             sx={{ mr:"5px" }}
                         >
                             Edit Product
-                        </Button>
-                        <Button variant="contained" color="error">
-                            Delete
-                        </Button>
+                        </Button>                        
                     </CardActions>
                 </Card>
             </Container>

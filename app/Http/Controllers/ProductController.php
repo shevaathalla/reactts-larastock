@@ -16,8 +16,8 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::all();        
-        return Inertia::render('Product/index',[
+        $products = Product::all();
+        return Inertia::render('Product/index', [
             'products' => $products
         ]);
     }
@@ -46,7 +46,7 @@ class ProductController extends Controller
             'price' => $request->product_price,
         ]);
 
-        return redirect(route('product.index'))->with('success','Product successfully created');
+        return redirect(route('product.index'))->with('success', 'Product successfully created');
     }
 
     /**
@@ -56,9 +56,9 @@ class ProductController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show(Product $product)
-    {        
-        return Inertia::render('Product/show',[
-            'product'=>$product
+    {
+        return Inertia::render('Product/show', [
+            'product' => $product
         ]);
     }
 
@@ -70,7 +70,7 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        return Inertia::render('Product/edit',[
+        return Inertia::render('Product/edit', [
             'product' => $product
         ]);
     }
@@ -89,7 +89,7 @@ class ProductController extends Controller
             'stock' => $request->product_stock,
             'price' => $request->product_price,
         ]);
-        return redirect(route('product.show', $product->id))->with('success','Product successfully updated');
+        return redirect(route('product.show', $product->id))->with('success', 'Product successfully updated');
     }
 
     /**
@@ -98,8 +98,10 @@ class ProductController extends Controller
      * @param  \App\Models\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Product $product)
+    public function destroy($products)
     {
-        //
+        $ids = explode(",", $products);
+        Product::destroy($ids);
+        return redirect(route('product.index'))->with('success', 'Product successfully deleted');
     }
 }
