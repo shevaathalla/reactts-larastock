@@ -40,7 +40,13 @@ class ProductController extends Controller
      */
     public function store(StoreProductRequest $request)
     {
-        //
+        Product::create([
+            'name' => $request->product_name,
+            'stock' => $request->product_stock,
+            'price' => $request->product_price,
+        ]);
+
+        return redirect(route('product.index'))->with('success','Product successfully created');
     }
 
     /**
@@ -78,7 +84,12 @@ class ProductController extends Controller
      */
     public function update(UpdateProductRequest $request, Product $product)
     {
-        //
+        Product::where('id', $product->id)->update([
+            'name' => $request->product_name,
+            'stock' => $request->product_stock,
+            'price' => $request->product_price,
+        ]);
+        return redirect(route('product.show', $product->id))->with('success','Product successfully updated');
     }
 
     /**

@@ -1,8 +1,12 @@
-interface Product {
+export interface Product {
     id: number;
     name: string;
     stock: number;
     price: number;
 }
 
-export default Product
+export interface ProductCreate {
+    product_name: string;
+    product_stock: number;
+    product_price: number;
+}

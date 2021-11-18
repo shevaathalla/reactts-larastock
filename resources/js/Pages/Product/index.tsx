@@ -5,7 +5,7 @@ import DataTable, { Alignment, TableColumn } from "react-data-table-component";
 import { Card, Container, Stack } from "@mui/material";
 import { InertiaLink } from "@inertiajs/inertia-react";
 import route from "ziggy-js";
-import Product from "../../Model/Product";
+import {Product} from "../../Model/Product";
 
 const IndexProductPage = ({ products }: { products: Array<Product> }) => {
     const [selectedRows, setSelectedRows] = useState([]);

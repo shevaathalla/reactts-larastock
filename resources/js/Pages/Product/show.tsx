@@ -13,7 +13,7 @@ import {
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import React from "react";
 import route from "ziggy-js";
-import Product from "../../Model/Product";
+import {Product} from "../../Model/Product";
 
 const ShowProductPage = ({ product }: { product: Product }) => {
     const theme = createTheme({

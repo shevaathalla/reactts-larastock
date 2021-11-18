@@ -8,6 +8,7 @@ import {
     Container,
     Divider,
     FormControl,
+    FormHelperText,
     Grid,
     Input,
     InputAdornment,
@@ -18,7 +19,7 @@ import {
 } from "@mui/material";
 import route from "ziggy-js";
 import { InertiaLink, useForm } from "@inertiajs/inertia-react";
-import Product from "../../Model/Product";
+import {Product} from "../../Model/Product";
 
 const editProductPage = ({ product }: { product: Product }) => {
     const theme = createTheme();
@@ -29,6 +30,10 @@ const editProductPage = ({ product }: { product: Product }) => {
         product_price: product.price,
     });
 
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        put(route('product.update',{product: product}));
+    };
     return (
         <ThemeProvider theme={theme}>
             <Container sx={{ marginTop: "50px" }}>
@@ -57,57 +62,98 @@ const editProductPage = ({ product }: { product: Product }) => {
                             Edit Product Page
                         </Typography>
                         <Divider />
-                        <Grid container spacing={2}>
-                            <Grid item xs={12} mb={2}>
-                                <TextField
-                                    sx={{ marginTop: "25px" }}
-                                    value={data.product_name}
-                                    fullWidth
-                                    label="Product Name"
-                                    id="product_name"
-                                />
-                            </Grid>
-                            <Grid item xs={6}>
-                                <TextField
-                                    value={data.product_stock}
-                                    fullWidth
-                                    label="Product Stock"
-                                    type="number"
-                                    id="product_stock"
-                                    InputLabelProps={{
-                                        shrink: true,
-                                    }}
-                                    variant="standard"
-                                />
-                            </Grid>
-                            <Grid item xs={6}>
-                                <FormControl fullWidth variant="standard">
-                                    <InputLabel htmlFor="product_price">
-                                        Product Price
-                                    </InputLabel>
-                                    <Input
-                                        value={data.product_price}
-                                        id="product_price"
-                                        type="number"
-                                        startAdornment={
-                                            <InputAdornment position="start">
-                                                Rp.
-                                            </InputAdornment>
+                        <form noValidate onSubmit={handleSubmit}>
+                            <Grid container spacing={2}>
+                                <Grid item xs={12} mb={2}>
+                                    <TextField
+                                        {...(errors.product_name
+                                            ? { error: true }
+                                            : {})}
+                                        sx={{ marginTop: "25px" }}
+                                        value={data.product_name}
+                                        fullWidth
+                                        helperText={errors.product_name}
+                                        onChange={(e) =>
+                                            setData(
+                                                "product_name",
+                                                e.target.value
+                                            )
                                         }
+                                        label="Product Name"
+                                        id="product_name"
                                     />
-                                </FormControl>
+                                </Grid>
+                                <Grid item xs={6}>
+                                    <TextField
+                                        {...(errors.product_stock
+                                            ? { error: true }
+                                            : {})}
+                                        value={data.product_stock}
+                                        fullWidth
+                                        helperText={errors.product_stock}
+                                        label="Product Stock"
+                                        type="number"
+                                        id="product_stock"
+                                        InputLabelProps={{
+                                            shrink: true,
+                                        }}
+                                        onChange={(e) =>
+                                            setData(
+                                                "product_stock",
+                                                Number(e.target.value)
+                                            )
+                                        }
+                                        variant="standard"
+                                    />
+                                </Grid>
+                                <Grid item xs={6}>
+                                    <FormControl
+                                        {...(errors.product_price
+                                            ? { error: true }
+                                            : {})}
+                                        fullWidth
+                                        variant="standard"
+                                    >
+                                        <InputLabel htmlFor="product_price">
+                                            Product Price
+                                        </InputLabel>
+                                        <Input
+                                            value={data.product_price}
+                                            id="product_price"
+                                            type="number"
+                                            onChange={(e) =>
+                                                setData(
+                                                    "product_price",
+                                                    Number(e.target.value)
+                                                )
+                                            }
+                                            startAdornment={
+                                                <InputAdornment position="start">
+                                                    Rp.
+                                                </InputAdornment>
+                                            }
+                                        />
+                                        <FormHelperText>
+                                            {errors.product_price}
+                                        </FormHelperText>
+                                    </FormControl>
+                                </Grid>
+                                <Grid
+                                    item
+                                    xs={12}
+                                    justifyContent="flex-start"
+                                    mt={3}
+                                >
+                                    <Button
+                                        variant="contained"
+                                        color="success"
+                                        type="submit"
+                                    >
+                                        Update Product
+                                    </Button>
+                                </Grid>
                             </Grid>
-                            <Grid
-                                item
-                                xs={12}
-                                justifyContent="flex-start"
-                                mt={3}
-                            >
-                                <Button variant="contained" color="success">
-                                    Update Product
-                                </Button>
-                            </Grid>
-                        </Grid>
+                        </form>
                     </CardContent>
                 </Card>
             </Container>
