@@ -64,7 +64,8 @@ const ShowProductPage = ({ product }: { product: Product }) => {
                         <Button
                             component={InertiaLink}
                             variant="contained"
-                            color="secondary"
+                            color="primary"
+                            href={route('product.edit',{product: product})}
                             sx={{ mr:"5px" }}
                         >
                             Edit Product

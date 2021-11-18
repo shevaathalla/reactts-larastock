@@ -9,18 +9,18 @@ import Product from "../../Model/Product";
 
 const IndexProductPage = ({ products }: { products: Array<Product> }) => {
     const [selectedRows, setSelectedRows] = useState([]);
-
-    useEffect(() => {
-        console.log("state", selectedRows);
-    }, [selectedRows]);
-
-    const handleButtonClick = () => {
-        console.log("clicked");
-    };
+    const [btnMultipleDelete, setBtnMultipleDelete] = useState(true);
 
     const handleChange = useCallback((state) => {
         setSelectedRows(state.selectedRows);
+        if (state.selectedRows.length > 0) {
+            setBtnMultipleDelete(false);   
+        }else{
+            setBtnMultipleDelete(true);
+        }
+        console.log(state.selectedRows);
     }, []);
+
 
     const dataTableTheme = {
         header: {
@@ -93,11 +93,26 @@ const IndexProductPage = ({ products }: { products: Array<Product> }) => {
                         theme="default"
                         title="Products List"
                         subHeaderAlign={Alignment.LEFT}
-                        subHeader subHeaderComponent={
-                            <Button variant="contained" color="success">
-                                Create
-                            </Button>
-                        }                        
+                        subHeader
+                        subHeaderComponent={
+                            <Stack spacing={2} direction="row">
+                                <Button
+                                    component={InertiaLink}
+                                    href={route("product.create")}
+                                    variant="contained"
+                                    color="success"
+                                >
+                                    Create
+                                </Button>
+                                <Button                                
+                                    variant="contained"
+                                    color="error"
+                                    disabled={btnMultipleDelete}
+                                >
+                                    Multiple Delete
+                                </Button>
+                            </Stack>
+                        }
                         columns={columns}
                         data={products}
                         customStyles={dataTableTheme}

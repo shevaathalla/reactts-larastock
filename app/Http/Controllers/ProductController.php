@@ -29,7 +29,7 @@ class ProductController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render('Product/create');
     }
 
     /**
@@ -64,7 +64,9 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        //
+        return Inertia::render('Product/edit',[
+            'product' => $product
+        ]);
     }
 
     /**
