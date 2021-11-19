@@ -3,15 +3,21 @@ import Button from "@mui/material/Button";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import DataTable, { Alignment, TableColumn } from "react-data-table-component";
 import { Card, Container, Stack } from "@mui/material";
-import { InertiaLink } from "@inertiajs/inertia-react";
+import { InertiaLink, usePage } from "@inertiajs/inertia-react";
 import route from "ziggy-js";
 import { Product } from "../../Model/Product";
 import { Inertia } from "@inertiajs/inertia";
+import Layout from "../../Components/layout";
+import {User} from "../../Model/User"
 
 const IndexProductPage = ({ products }: { products: Array<Product> }) => {
     const [selectedRows, setSelectedRows] = useState<Product[]>([]);
     const [toggledClearRows, setToggleClearRows] = React.useState(false);
     const [btnMultipleDelete, setBtnMultipleDelete] = useState(true);
+
+    const authUser: any = usePage().props.auth;
+
+    console.log(authUser);
 
     const handleChange = useCallback((state) => {
         setSelectedRows(state.selectedRows);
@@ -19,7 +25,7 @@ const IndexProductPage = ({ products }: { products: Array<Product> }) => {
             setBtnMultipleDelete(false);
         } else {
             setBtnMultipleDelete(true);
-        }        
+        }
     }, []);
 
     const dataTableTheme = {
@@ -37,12 +43,17 @@ const IndexProductPage = ({ products }: { products: Array<Product> }) => {
 
     const theme = createTheme();
 
-    const handleDelete = (ids: Array<Number>, e: React.FormEvent<HTMLButtonElement>) => {
-        e.preventDefault();               
-        if (confirm("are you sure?")) {            
+    const handleDelete = (
+        ids: Array<Number>,
+        e: React.FormEvent<HTMLButtonElement>
+    ) => {
+        e.preventDefault();
+        if (confirm("are you sure?")) {
             setToggleClearRows(!toggledClearRows);
-            Inertia.delete(route('product.destroy', {products: ids.toString()}));   
-        }                
+            Inertia.delete(
+                route("product.destroy", { products: ids.toString() })
+            );
+        }
     };
 
     const columns: TableColumn<Product>[] = useMemo(
@@ -75,15 +86,15 @@ const IndexProductPage = ({ products }: { products: Array<Product> }) => {
                                 variant="contained"
                             >
                                 Details
-                            </Button>                       
-                                <Button
-                                    color="error"
-                                    variant="contained"
-                                    size="small"
-                                    onClick = {(e) => handleDelete([row.id],e)}
-                                >
-                                    Delete
-                                </Button>                            
+                            </Button>
+                            <Button
+                                color="error"
+                                variant="contained"
+                                size="small"
+                                onClick={(e) => handleDelete([row.id], e)}
+                            >
+                                Delete
+                            </Button>
                         </Stack>
                     </div>
                 ),
@@ -95,7 +106,7 @@ const IndexProductPage = ({ products }: { products: Array<Product> }) => {
         []
     );
     return (
-        <ThemeProvider theme={theme}>
+        <Layout title={'Products'}>
             <Container sx={{ marginTop: "50px" }}>
                 <Card variant="outlined">
                     <DataTable
@@ -117,9 +128,11 @@ const IndexProductPage = ({ products }: { products: Array<Product> }) => {
                                     variant="contained"
                                     color="error"
                                     disabled={btnMultipleDelete}
-                                    onClick = {(e) => {
-                                        let ids = selectedRows.map(products => products.id);
-                                        handleDelete(ids,e);                                                                                
+                                    onClick={(e) => {
+                                        let ids = selectedRows.map(
+                                            (products) => products.id
+                                        );
+                                        handleDelete(ids, e);
                                     }}
                                 >
                                     Multiple Delete
@@ -137,7 +150,7 @@ const IndexProductPage = ({ products }: { products: Array<Product> }) => {
                     ></DataTable>
                 </Card>
             </Container>
-        </ThemeProvider>
+        </Layout>
     );
 };
 

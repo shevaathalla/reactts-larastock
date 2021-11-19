@@ -20,13 +20,16 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/home',[HomeController::class, 'index']);
+Route::get('/home', [HomeController::class, 'index']);
 
-Route::get('/register', [AuthController::class,'registerPage'])->name('register.view');
-Route::post('/register', [AuthController::class,'register'])->name('register');
+Route::get('/register', [AuthController::class, 'registerPage'])->name('register.view');
+Route::post('/register', [AuthController::class, 'register'])->name('register');
 
-Route::get('/login',[AuthController::class,'loginPage'])->name('login.view');
-Route::post('/login',[AuthController::class,'login'])->name('login');
+Route::get('/login', [AuthController::class, 'loginPage'])->name('login.view');
+Route::post('/login', [AuthController::class, 'login'])->name('login');
 
-Route::resource('/product', ProductController::class)->except('destroy');
-Route::delete('/product/{products}', [ProductController::class,'destroy'])->name('product.destroy');
+Route::middleware(['auth'])->group(function () {
+    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+    Route::resource('/product', ProductController::class)->except('destroy');
+    Route::delete('/product/{products}', [ProductController::class, 'destroy'])->name('product.destroy');
+});
