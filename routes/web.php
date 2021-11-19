@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
@@ -20,6 +21,12 @@ Route::get('/', function () {
 });
 
 Route::get('/home',[HomeController::class, 'index']);
+
+Route::get('/register', [AuthController::class,'registerPage'])->name('register.view');
+Route::post('/register', [AuthController::class,'register'])->name('register');
+
+Route::get('/login',[AuthController::class,'loginPage'])->name('login.view');
+Route::post('/login',[AuthController::class,'login'])->name('login');
 
 Route::resource('/product', ProductController::class)->except('destroy');
 Route::delete('/product/{products}', [ProductController::class,'destroy'])->name('product.destroy');
