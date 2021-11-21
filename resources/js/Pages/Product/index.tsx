@@ -7,8 +7,8 @@ import { InertiaLink, usePage } from "@inertiajs/inertia-react";
 import route from "ziggy-js";
 import { Product } from "../../Model/Product";
 import { Inertia } from "@inertiajs/inertia";
-import Layout from "../../Components/layout";
-import {User} from "../../Model/User"
+import Layout from "../../Components/Layout";
+import { User } from "../../Model/User";
 
 const IndexProductPage = ({ products }: { products: Array<Product> }) => {
     const [selectedRows, setSelectedRows] = useState<Product[]>([]);
@@ -16,8 +16,6 @@ const IndexProductPage = ({ products }: { products: Array<Product> }) => {
     const [btnMultipleDelete, setBtnMultipleDelete] = useState(true);
 
     const authUser: any = usePage().props.auth;
-
-    console.log(authUser);
 
     const handleChange = useCallback((state) => {
         setSelectedRows(state.selectedRows);
@@ -106,50 +104,48 @@ const IndexProductPage = ({ products }: { products: Array<Product> }) => {
         []
     );
     return (
-        <Layout title={'Products'}>
-            <Container sx={{ marginTop: "50px" }}>
-                <Card variant="outlined">
-                    <DataTable
-                        theme="default"
-                        title="Products List"
-                        subHeaderAlign={Alignment.LEFT}
-                        subHeader
-                        subHeaderComponent={
-                            <Stack spacing={2} direction="row">
-                                <Button
-                                    component={InertiaLink}
-                                    href={route("product.create")}
-                                    variant="contained"
-                                    color="success"
-                                >
-                                    Create
-                                </Button>
-                                <Button
-                                    variant="contained"
-                                    color="error"
-                                    disabled={btnMultipleDelete}
-                                    onClick={(e) => {
-                                        let ids = selectedRows.map(
-                                            (products) => products.id
-                                        );
-                                        handleDelete(ids, e);
-                                    }}
-                                >
-                                    Multiple Delete
-                                </Button>
-                            </Stack>
-                        }
-                        columns={columns}
-                        data={products}
-                        customStyles={dataTableTheme}
-                        selectableRows
-                        onSelectedRowsChange={handleChange}
-                        clearSelectedRows={toggledClearRows}
-                        pagination
-                        responsive
-                    ></DataTable>
-                </Card>
-            </Container>
+        <Layout title={"Products"}>
+            <Card variant="outlined">
+                <DataTable
+                    theme="default"
+                    title="Products List"
+                    subHeaderAlign={Alignment.LEFT}
+                    subHeader
+                    subHeaderComponent={
+                        <Stack spacing={2} direction="row">
+                            <Button
+                                component={InertiaLink}
+                                href={route("product.create")}
+                                variant="contained"
+                                color="success"
+                            >
+                                Create
+                            </Button>
+                            <Button
+                                variant="contained"
+                                color="error"
+                                disabled={btnMultipleDelete}
+                                onClick={(e) => {
+                                    let ids = selectedRows.map(
+                                        (products) => products.id
+                                    );
+                                    handleDelete(ids, e);
+                                }}
+                            >
+                                Multiple Delete
+                            </Button>
+                        </Stack>
+                    }
+                    columns={columns}
+                    data={products}
+                    customStyles={dataTableTheme}
+                    selectableRows
+                    onSelectedRowsChange={handleChange}
+                    clearSelectedRows={toggledClearRows}
+                    pagination
+                    responsive
+                ></DataTable>
+            </Card>
         </Layout>
     );
 };

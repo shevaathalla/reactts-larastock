@@ -1,5 +1,6 @@
 import {
     Button,
+    Container,
     ListItem,
     ListItemIcon,
     ListItemText,
@@ -21,10 +22,11 @@ import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 
-import { listItems } from "./listItems";
+import { listItems } from "./ListItems";
 import { usePage } from "@inertiajs/inertia-react";
 import { Inertia } from "@inertiajs/inertia";
 import route from "ziggy-js";
+import FlashMessage from "./FlashMessage";
 
 const Layout = ({
     children,
@@ -63,7 +65,7 @@ const Layout = ({
         shouldForwardProp: (prop: string) => prop !== "open",
     })(({ theme, open }) => ({
         "& .MuiDrawer-paper": {
-            position: "relative",
+            position: "fixed",
             whiteSpace: "nowrap",
             width: drawerWidth,
             transition: theme.transitions.create("width", {
@@ -165,7 +167,10 @@ const Layout = ({
                     }}
                 >
                     <Toolbar />
+                    <FlashMessage />
+                    <Container sx={{ marginTop:"50px" }}>
                     {children}
+                    </Container>
                 </Box>
             </Box>
         </ThemeProvider>

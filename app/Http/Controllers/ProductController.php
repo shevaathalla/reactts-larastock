@@ -17,7 +17,7 @@ class ProductController extends Controller
     public function index()
     {
         $products = Product::all();
-        return Inertia::render('Product/index', [
+        return Inertia::render('Product/Index', [
             'products' => $products
         ]);
     }
@@ -29,7 +29,7 @@ class ProductController extends Controller
      */
     public function create()
     {
-        return Inertia::render('Product/create');
+        return Inertia::render('Product/Create');
     }
 
     /**
@@ -57,7 +57,7 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
-        return Inertia::render('Product/show', [
+        return Inertia::render('Product/Show', [
             'product' => $product
         ]);
     }
@@ -70,7 +70,7 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        return Inertia::render('Product/edit', [
+        return Inertia::render('Product/Edit', [
             'product' => $product
         ]);
     }
