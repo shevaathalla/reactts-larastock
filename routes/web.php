@@ -28,8 +28,8 @@ Route::post('/register', [AuthController::class, 'register'])->name('register');
 Route::get('/login', [AuthController::class, 'loginPage'])->name('login.view');
 Route::post('/login', [AuthController::class, 'login'])->name('login');
 
+Route::resource('/product', ProductController::class)->except('destroy');
 Route::middleware(['auth'])->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
-    Route::resource('/product', ProductController::class)->except('destroy');
     Route::delete('/product/{products}', [ProductController::class, 'destroy'])->name('product.destroy');
 });
