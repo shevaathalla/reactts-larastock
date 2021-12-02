@@ -35,4 +35,5 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/product/{products}', [ProductController::class, 'destroy'])->name('product.destroy');
 });
 
-Route::resource('transaction', TransactionController::class);
+Route::resource('transaction', TransactionController::class)->except('destroy');
+Route::delete('/transaction/{transactions}', [TransactionController::class, 'destroy'])->name('transaction.destroy');

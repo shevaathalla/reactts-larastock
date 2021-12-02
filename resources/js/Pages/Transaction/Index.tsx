@@ -1,3 +1,4 @@
+import { Inertia } from "@inertiajs/inertia";
 import { InertiaLink, usePage } from "@inertiajs/inertia-react";
 import { Button, Card, Stack, Typography } from "@mui/material";
 import React, { useCallback, useMemo, useState } from "react";
@@ -21,13 +22,15 @@ const IndexTransactionPage = ({
 
     const contextActions = React.useMemo(() => {
         const handleDelete = () => {
+            let ids = selectedRows.map((row) => row.id);
             if (
                 window.confirm(
                     `Are you sure you want to delete:\r ${selectedRows.map(
-                        (r) => r.id
+                        (r) => r.transaction_code
                     )}?`
                 )
             ) {
+                Inertia.delete(route('transaction.destroy', {transactions: ids.toString()}));
                 setToggleCleared(!toggleCleared);
             }
         };

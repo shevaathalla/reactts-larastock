@@ -1,3 +1,4 @@
+import { Inertia } from "@inertiajs/inertia";
 import { InertiaLink } from "@inertiajs/inertia-react";
 import {
     Breadcrumbs,
@@ -26,6 +27,12 @@ import { getNumberFormatIDR } from "../../Helpers/formatNumber";
 import { Transaction, TransactionDetails } from "../../Model/Transaction";
 
 const ShowTransactionPage = ({ transaction }: { transaction: Transaction }) => {        
+
+    const handleDelete = () => {
+        if (confirm("are you sure want to delete this transactions?")) {
+            Inertia.delete(route('transaction.destroy', {transactions: transaction.id}));
+        }
+    };
 
     return (
         <Layout title={"Transaction Details"}>
@@ -123,13 +130,12 @@ const ShowTransactionPage = ({ transaction }: { transaction: Transaction }) => {
                     </Grid>                    
                 </CardContent>
                 <CardActions>
-                    <Button
-                        component={InertiaLink}
+                    <Button                        
                         variant="contained"
-                        color="primary"
-                        href="#"                        
+                        color="error" 
+                        onClick = {handleDelete}                       
                     >
-                        Edit Transaction
+                        Delete Transaction
                     </Button>
                 </CardActions>
             </Card>
