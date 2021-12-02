@@ -11,6 +11,7 @@
     },
     "devDependencies": {
         "@babel/preset-react": "^7.16.0",
+        "@types/lodash": "^4.14.177",
         "axios": "^0.21",
         "laravel-mix": "^6.0.39",
         "lodash": "^4.17.19",

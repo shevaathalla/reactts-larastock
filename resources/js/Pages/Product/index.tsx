@@ -8,14 +8,12 @@ import route from "ziggy-js";
 import { Product } from "../../Model/Product";
 import { Inertia } from "@inertiajs/inertia";
 import Layout from "../../Components/Layout";
-import { User } from "../../Model/User";
+import { getNumberFormatIDR } from "../../Helpers/formatNumber";
 
 const IndexProductPage = ({ products }: { products: Array<Product> }) => {
     const [selectedRows, setSelectedRows] = useState<Product[]>([]);
     const [toggledClearRows, setToggleClearRows] = React.useState(false);
-    const [btnMultipleDelete, setBtnMultipleDelete] = useState(true);
-
-    const authUser: any = usePage().props.auth;
+    const [btnMultipleDelete, setBtnMultipleDelete] = useState(true);    
 
     const handleChange = useCallback((state) => {
         setSelectedRows(state.selectedRows);
@@ -37,9 +35,7 @@ const IndexProductPage = ({ products }: { products: Array<Product> }) => {
                 fontSize: "18px",
             },
         },
-    };
-
-    const theme = createTheme();
+    };    
 
     const handleDelete = (
         ids: Array<Number>,
@@ -68,7 +64,7 @@ const IndexProductPage = ({ products }: { products: Array<Product> }) => {
             },
             {
                 name: "Price",
-                selector: (row) => "RP. " + row.price,
+                selector: (row) => getNumberFormatIDR(row.price),
                 sortable: true,
             },
             {

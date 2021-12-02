@@ -14,13 +14,13 @@ export const listItems = (
             </ListItemIcon>
             <ListItemText primary="Dashboard" />
         </ListItem>
-        <ListItem component={InertiaLink} href={route('product.index')}>
+        <ListItem button component={InertiaLink} href={route('product.index')}>
             <ListItemIcon>
                 <AllInboxIcon />
             </ListItemIcon>
             <ListItemText primary="Product" />
         </ListItem>
-        <ListItem component={InertiaLink} href="#">
+        <ListItem button component={InertiaLink} href={route('transaction.index')}>
             <ListItemIcon>
                 <ReceiptLongIcon />
             </ListItemIcon>

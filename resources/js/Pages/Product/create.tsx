@@ -21,7 +21,7 @@ import route from "ziggy-js";
 import { InertiaLink, useForm } from "@inertiajs/inertia-react";
 import { ProductCreate } from "../../Model/Product";
 import Layout from "../../Components/Layout";
-const createProductPage = () => {
+const CreateProductPage = () => {
     const theme = createTheme();
 
     const { data, setData, errors, post } = useForm<ProductCreate>({
@@ -148,4 +148,4 @@ const createProductPage = () => {
     );
 };
 
-export default createProductPage;
+export default CreateProductPage;

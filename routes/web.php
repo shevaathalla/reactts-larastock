@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\TransactionController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -28,8 +29,10 @@ Route::post('/register', [AuthController::class, 'register'])->name('register');
 Route::get('/login', [AuthController::class, 'loginPage'])->name('login.view');
 Route::post('/login', [AuthController::class, 'login'])->name('login');
 
-Route::resource('/product', ProductController::class)->except('destroy');
 Route::middleware(['auth'])->group(function () {
+    Route::resource('/product', ProductController::class)->except('destroy');
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
     Route::delete('/product/{products}', [ProductController::class, 'destroy'])->name('product.destroy');
 });
+
+Route::resource('transaction', TransactionController::class);

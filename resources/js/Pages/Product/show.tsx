@@ -14,6 +14,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import React from "react";
 import route from "ziggy-js";
 import Layout from "../../Components/Layout";
+import { getNumberFormatIDR } from "../../Helpers/formatNumber";
 import { Product } from "../../Model/Product";
 
 const ShowProductPage = ({ product }: { product: Product }) => {
@@ -41,22 +42,22 @@ const ShowProductPage = ({ product }: { product: Product }) => {
                     </Typography>
                     <Grid container spacing={2}>
                         <Grid item xs={2}>
-                            Product Name:
+                            Product Name
                         </Grid>
                         <Grid item xs={10}>
-                            {product.name}
+                            : {product.name}
                         </Grid>
                         <Grid item xs={2}>
-                            Product Stock:
+                            Product Stock
                         </Grid>
                         <Grid item xs={10}>
-                            {product.stock}
+                            : {product.stock}
                         </Grid>
                         <Grid item xs={2}>
-                            Product Price:
+                            Product Price
                         </Grid>
                         <Grid item xs={10}>
-                            {product.price}
+                            : {getNumberFormatIDR(product.price)}
                         </Grid>
                     </Grid>
                 </CardContent>

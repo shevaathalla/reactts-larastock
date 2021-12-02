@@ -23,6 +23,7 @@ import { listItems } from "./ListItems";
 import { Inertia } from "@inertiajs/inertia";
 import route from "ziggy-js";
 import { usePage } from "@inertiajs/inertia-react";
+import FlashMessage from "./FlashMessage";
 
 const drawerWidth = 240;
 
@@ -87,9 +88,7 @@ export default function Layout({
     const theme = useTheme();
     const [open, setOpen] = React.useState(false);
 
-    const auth: any = usePage().props.auth;
-
-    console.log(!auth.user);
+    const auth: any = usePage().props.auth;    
 
     const handleDrawerOpen = () => {
         setOpen(true);
@@ -171,6 +170,7 @@ export default function Layout({
             </Drawer>
             <Main open={open}>
                 <DrawerHeader />
+                <FlashMessage />
                 <ThemeProvider theme={theme}>{children}</ThemeProvider>
             </Main>
         </Box>
